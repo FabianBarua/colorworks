@@ -1,61 +1,127 @@
 ---
-interface Props {
-	title: string;
-	body: string;
-	href: string;
+
+---
+<div id="CardAnimated" class="row-span-2 overflow-hidden  bg-brandWhite text-brandBlack rounded-3xl  h-[23.5rem]">
+</div>
+
+<script>
+
+import Matter from "matter-js";
+let CardAnimated = document.getElementById("CardAnimated") as HTMLElement;
+
+var Engine = Matter.Engine,
+  Render = Matter.Render,
+  World = Matter.World,
+  Bodies = Matter.Bodies,
+  Body = Matter.Body,
+  MouseConstraint = Matter.MouseConstraint,
+  Mouse = Matter.Mouse,
+  Composite = Matter.Composite;
+
+var engine = Engine.create(),
+  world = engine.world;
+
+var render = Render.create({
+  element: CardAnimated,
+  engine: engine,
+  options: {
+    width: CardAnimated.clientWidth,
+    height: CardAnimated.clientHeight,
+    wireframes: false,
+    background: "#fff"
+  }
+});
+
+
+
+// use cardAnimated.clientWidth and cardAnimated.clientHeight
+var leftWall = Bodies.rectangle(0, CardAnimated.clientHeight / 2, 1, CardAnimated.clientHeight, {
+  isStatic: true,
+  render: {
+    fillStyle: "transparent"
+  }
+});
+
+var rightWall = Bodies.rectangle(CardAnimated.clientWidth, CardAnimated.clientHeight / 2, 1, CardAnimated.clientHeight, {
+  isStatic: true,
+  render: {
+    fillStyle: "transparent"
+  }
+});
+
+var bottomWall = Bodies.rectangle(CardAnimated.clientWidth / 2, CardAnimated.clientHeight, CardAnimated.clientWidth, 12, {
+  isStatic: true,
+  render: {
+    fillStyle: "transparent"
+  }
+});
+
+var topWall = Bodies.rectangle(CardAnimated.clientWidth / 2, 0, CardAnimated.clientWidth, 12, {
+  isStatic: true,
+  render: {
+    fillStyle: "transparent"
+  }
+});
+
+World.add(engine.world, [ topWall, leftWall, rightWall, bottomWall]);
+
+// add mouse control
+var mouse = Mouse.create(render.canvas),
+  mouseConstraint = MouseConstraint.create(engine, {
+    mouse: mouse,
+    constraint: {
+      stiffness: 0.7,
+      render: {
+        visible: false
+      }
+    }
+  });
+
+Composite.add(world, mouseConstraint);
+
+// keep the mouse in sync with rendering
+render.mouse = mouse;
+
+Matter.Runner.run(engine);
+
+Render.run(render);
+
+/*funksjon som lager en ball med tekstur*/
+var addCircle = function () {
+  return Bodies.circle(250, 100, 30, {
+    restitution: 0,
+    render: {
+      sprite: {
+        texture:
+          "https://opengameart.org/sites/default/files/styles/medium/public/SoccerBall_0.png",
+        xScale: 0.6,
+        yScale: 0.6
+      }
+    }
+  });
+};
+
+/*for-loop som lager 14 sirkler*/
+for (let i = 0; i < 14; i++) {
+  World.add(engine.world, addCircle());
 }
 
-const { href, title, body } = Astro.props;
----
+// add event resize render
+window.addEventListener("resize", () => {
+ // reset matterjs render
+  render.canvas.width = CardAnimated.clientWidth;
+  render.canvas.height = CardAnimated.clientHeight;
+  render.bounds.max.x = CardAnimated.clientWidth;
+  render.bounds.max.y = CardAnimated.clientHeight;
+  render.options.width = CardAnimated.clientWidth;
+  render.options.height = CardAnimated.clientHeight;
+  Body.setPosition(leftWall, { x: 0, y: CardAnimated.clientHeight / 2 });
+  Body.setPosition(rightWall, { x: CardAnimated.clientWidth, y: CardAnimated.clientHeight / 2 });
+  Body.setPosition(bottomWall, { x: CardAnimated.clientWidth / 2, y: CardAnimated.clientHeight });
+  Body.setPosition(topWall, { x: CardAnimated.clientWidth / 2, y: 0 });
+  Engine.update(engine, 1000 / 60);
+});
 
-<li class="link-card">
-	<a href={href}>
-		<h2>
-			{title}
-			<span>&rarr;</span>
-		</h2>
-		<p>
-			{body}
-		</p>
-	</a>
-</li>
-<style>
-	.link-card {
-		list-style: none;
-		display: flex;
-		padding: 1px;
-		background-color: #23262d;
-		background-image: none;
-		background-size: 400%;
-		border-radius: 7px;
-		background-position: 100%;
-		transition: background-position 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-		box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
-	}
-	.link-card > a {
-		width: 100%;
-		text-decoration: none;
-		line-height: 1.4;
-		padding: calc(1.5rem - 1px);
-		border-radius: 8px;
-		color: white;
-		background-color: #23262d;
-		opacity: 0.8;
-	}
-	h2 {
-		margin: 0;
-		font-size: 1.25rem;
-		transition: color 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-	}
-	p {
-		margin-top: 0.5rem;
-		margin-bottom: 0;
-	}
-	.link-card:is(:hover, :focus-within) {
-		background-position: 0;
-		background-image: var(--accent-gradient);
-	}
-	.link-card:is(:hover, :focus-within) h2 {
-		color: rgb(var(--accent-light));
-	}
-</style>
+
+
+</script>
