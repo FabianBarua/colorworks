@@ -8,120 +8,113 @@
 
 import Matter from "matter-js";
 let CardAnimated = document.getElementById("CardAnimated") as HTMLElement;
+var Example: any = Example || {};
 
-var Engine = Matter.Engine,
-  Render = Matter.Render,
-  World = Matter.World,
-  Bodies = Matter.Bodies,
-  Body = Matter.Body,
-  MouseConstraint = Matter.MouseConstraint,
-  Mouse = Matter.Mouse,
-  Composite = Matter.Composite;
+Example.mixed = function() {
+    var Engine = Matter.Engine,
+        Render = Matter.Render,
+        Runner = Matter.Runner,
+        Composites = Matter.Composites,
+        Common = Matter.Common,
+        MouseConstraint = Matter.MouseConstraint,
+        Mouse = Matter.Mouse,
+        Composite = Matter.Composite,
+        Bodies = Matter.Bodies;
 
-var engine = Engine.create(),
-  world = engine.world;
+    // create engine
+    var engine = Engine.create(),
+        world = engine.world;
 
-var render = Render.create({
-  element: CardAnimated,
-  engine: engine,
-  options: {
-    width: CardAnimated.clientWidth,
-    height: CardAnimated.clientHeight,
-    wireframes: false,
-    background: "#fff"
-  }
-});
+    // create renderer
+    var render = Render.create({
+        element: CardAnimated,
+        engine: engine,
+        options: {
+            width: CardAnimated.clientWidth,
+            height: CardAnimated.clientHeight,
+            showAngleIndicator: true,
+        }
+    });
 
+    Render.run(render);
 
+    // create runner
+    var runner = Runner.create();
+    Runner.run(runner, engine);
 
-// use cardAnimated.clientWidth and cardAnimated.clientHeight
-var leftWall = Bodies.rectangle(0, CardAnimated.clientHeight / 2, 1, CardAnimated.clientHeight, {
-  isStatic: true,
-  render: {
-    fillStyle: "transparent"
-  }
-});
+    // add bodies
+    var stack = Composites.stack(20, 20, 10, 5, 0, 0, function(x, y) {
+        var sides = Math.round(Common.random(1, 8));
 
-var rightWall = Bodies.rectangle(CardAnimated.clientWidth, CardAnimated.clientHeight / 2, 1, CardAnimated.clientHeight, {
-  isStatic: true,
-  render: {
-    fillStyle: "transparent"
-  }
-});
+        // round the edges of some bodies
+        var chamfer = null;
+        if (sides > 2 && Common.random() > 0.7) {
+            chamfer = {
+                radius: 10
+            };
+        }
 
-var bottomWall = Bodies.rectangle(CardAnimated.clientWidth / 2, CardAnimated.clientHeight, CardAnimated.clientWidth, 12, {
-  isStatic: true,
-  render: {
-    fillStyle: "transparent"
-  }
-});
+        switch (Math.round(Common.random(0, 1))) {
+        case 0:
+            if (Common.random() < 0.8) {
+                return Bodies.rectangle(x, y, Common.random(25, 50), Common.random(25, 50), { chamfer: chamfer });
+            } else {
+                return Bodies.rectangle(x, y, Common.random(80, 120), Common.random(25, 30), { chamfer: chamfer });
+            }
+        case 1:
+            return Bodies.polygon(x, y, sides, Common.random(25, 50), { chamfer: chamfer });
+        }
+    });
 
-var topWall = Bodies.rectangle(CardAnimated.clientWidth / 2, 0, CardAnimated.clientWidth, 12, {
-  isStatic: true,
-  render: {
-    fillStyle: "transparent"
-  }
-});
+    Composite.add(world, stack);
 
-World.add(engine.world, [ topWall, leftWall, rightWall, bottomWall]);
+    Composite.add(world, [
+        // walls
+        // Bodies.rectangle(400, 0, 800, 50, { isStatic: true }),
+        // Bodies.rectangle(400, 600, 800, 50, { isStatic: true }),
+        // Bodies.rectangle(800, 300, 50, 600, { isStatic: true }),
+        // Bodies.rectangle(0, 300, 50, 600, { isStatic: true })
+    ]);
 
-// add mouse control
-var mouse = Mouse.create(render.canvas),
-  mouseConstraint = MouseConstraint.create(engine, {
-    mouse: mouse,
-    constraint: {
-      stiffness: 0.7,
-      render: {
-        visible: false
-      }
-    }
-  });
+    // add mouse control
+    var mouse = Mouse.create(render.canvas),
+        mouseConstraint = MouseConstraint.create(engine, {
+            mouse: mouse,
+            constraint: {
+                stiffness: 0.2,
+                render: {
+                    visible: false
+                }
+            }
+        });
 
-Composite.add(world, mouseConstraint);
+    Composite.add(world, mouseConstraint);
 
-// keep the mouse in sync with rendering
-render.mouse = mouse;
+    // keep the mouse in sync with rendering
+    render.mouse = mouse;
 
-Matter.Runner.run(engine);
+    // fit the render viewport to the scene
+    Render.lookAt(render, {
+        min: { x: 0, y: 0 },
+        max: { x: 800, y: 600 }
+    });
 
-Render.run(render);
-
-/*funksjon som lager en ball med tekstur*/
-var addCircle = function () {
-  return Bodies.circle(250, 100, 30, {
-    restitution: 0,
-    render: {
-      sprite: {
-        texture:
-          "https://opengameart.org/sites/default/files/styles/medium/public/SoccerBall_0.png",
-        xScale: 0.6,
-        yScale: 0.6
-      }
-    }
-  });
+    // context for MatterTools.Demo
+    return {
+        engine: engine,
+        runner: runner,
+        render: render,
+        canvas: render.canvas,
+        stop: function() {
+            Matter.Render.stop(render);
+            Matter.Runner.stop(runner);
+        }
+    };
 };
 
-/*for-loop som lager 14 sirkler*/
-for (let i = 0; i < 14; i++) {
-  World.add(engine.world, addCircle());
-}
+Example.mixed.title = 'Mixed Shapes';
+Example.mixed.for = '>=0.14.2';
 
-// add event resize render
-window.addEventListener("resize", () => {
- // reset matterjs render
-  render.canvas.width = CardAnimated.clientWidth;
-  render.canvas.height = CardAnimated.clientHeight;
-  render.bounds.max.x = CardAnimated.clientWidth;
-  render.bounds.max.y = CardAnimated.clientHeight;
-  render.options.width = CardAnimated.clientWidth;
-  render.options.height = CardAnimated.clientHeight;
-  Body.setPosition(leftWall, { x: 0, y: CardAnimated.clientHeight / 2 });
-  Body.setPosition(rightWall, { x: CardAnimated.clientWidth, y: CardAnimated.clientHeight / 2 });
-  Body.setPosition(bottomWall, { x: CardAnimated.clientWidth / 2, y: CardAnimated.clientHeight });
-  Body.setPosition(topWall, { x: CardAnimated.clientWidth / 2, y: 0 });
-  Engine.update(engine, 1000 / 60);
-});
-
-
+Example.mixed();
 
 </script>
