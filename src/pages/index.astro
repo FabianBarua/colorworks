@@ -1,9 +1,142 @@
 ---
-import '@/styles/main.css';
-import Layout from '../layouts/Layout.astro';
-
+import "@/styles/main.css";
+import Layout from "../layouts/Layout.astro";
+import Card from "@/components/Card.astro";
 ---
 
 <Layout title="Welcome to Astro.">
+  <div class="fixed inset-x-0 top-0 -z-30 h-screen" id="noise">
+    <svg
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      aria-hidden="true"
+    >
+    </svg>
+  </div>
 
+  <header
+    class="sticky top-4 mx-auto font-ClashDisplay font-medium text-base flex h-12 justify-center items-center gap-8 rounded-full bg-brandBlack text-brandWhite w-min py-3 pl-6 pr-3 text-nowrap"
+  >
+    <a class="text-xl" href="/">FirstPlace</a>
+    <div class="border-l border-l-brandGray h-full"></div>
+
+    <ul class="flex">
+      <li class="py-2 px-3 rounded-full">
+        <a class="" href="/#whyUs">Why Us</a>
+      </li>
+      <li class="py-2 px-3 rounded-full">
+        <a class="" href="/#aboutUs">About Us</a>
+      </li>
+      <li class="py-2 px-3 rounded-full">
+        <a class="" href="/#portfolio">Portfolio</a>
+      </li>
+    </ul>
+    <button class="bg-brandYellow text-brandBlack px-3 py-[3px] rounded-full"
+      >Book a call</button
+    >
+  </header>
+  <main class="mt-28 w-11/12 mx-auto">
+    <section class="text-center flex flex-col items-center">
+      <h1
+        class="font-medium text-[120px] leading-[100px] font-ClashDisplay text-balance"
+      >
+        We drive growth to <br class="lg:inline hidden" /> your business
+        <img src="/arrow.svg" class="h-24 inline" alt="" />
+      </h1>
+      <p class="mt-6 text-xl text-[#262626]">
+        Unlock your brand's potential with our proven marketing expertise.
+      </p>
+      <p class="text-xl leading-5 text-[#262626]">
+        From strategy to execution, we drive growth.
+      </p>
+      <button
+        class="w-min text-nowrap font-ClashDisplay bg-brandYellow pl-6 p-3 mt-12 flex gap-4 rounded-full justify-center items-center font-medium text-2xl leading-[20px]"
+      >
+        Book a call
+        <div class="size-10 rounded-full bg-brandBlack p-[2px]">
+          <img class="size-full" src="/arrow-left.svg" alt="" />
+        </div>
+      </button>
+    </section>
+    <section class="my-[100px]">
+      <div class="grid grid-cols-3 grid-rows-2 gap-6">
+        <div
+          class="row-span-2 overflow-hidden bg-brandWhite text-brandBlack rounded-3xl h-[23.5rem] p-5 flex justify-between flex-col"
+        >
+          <h2
+            class="font-ClashDisplay font-medium text-[28px] leading-[30px] mt-5 ml-5"
+          >
+            Services
+          </h2>
+          <div class="px-5 pb-4"><Card /></div>
+        </div>
+        <div
+          class="h-44 bg-brandBlack text-brandWhite rounded-3xl flex flex-col gap-4 px-12 py-8"
+        >
+          <h2 class="font-ClashDisplay font-medium text-6xl leading-[36px]">
+            1.2M+
+          </h2>
+          <p class="text-lg leading-[25px]">
+            users have interacted with websites <br class="lg:inline hidden" /> built
+            by us.
+          </p>
+        </div>
+        <div
+          class="col-start-2 row-start-2 h-44 text-brandBlack bg-brandWhite rounded-3xl flex flex-col gap-4 px-12 py-8"
+        >
+          <h2 class="font-ClashDisplay font-medium text-6xl leading-[36px]">
+            $3M
+          </h2>
+          <p class="text-lg leading-[25px]">
+            in funding raised by start-ups <br class="lg:inline hidden" /> we’ve
+            worked with.
+          </p>
+        </div>
+        <div
+          class="row-span-2 col-start-3 row-start-1 bg-brandWhite text-brandBlack rounded-3xl h-[23.5rem] p-8 py-12 flex flex-col"
+        >
+          <div>
+            <svg
+              width="31"
+              height="24"
+              viewBox="0 0 31 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M14.2648 17.4556C14.2648 19.1303 13.6007 20.5694 12.2725 21.773C10.9974 22.9243 9.37704 23.5 7.41131 23.5C5.12682 23.5 3.32048 22.715 1.99229 21.1451C0.664096 19.5751 0 17.7173 0 15.5717C0 10.7048 1.35476 7.04152 4.06427 4.58191C6.77378 2.1223 9.77549 0.761661 13.0694 0.5V5.83788C11.4756 5.99488 9.96144 6.62287 8.52699 7.72184C7.14567 8.82082 6.40189 10.2076 6.29563 11.8822C6.82691 11.6206 7.41131 11.4898 8.04884 11.4898C10.0146 11.4898 11.5287 12.0392 12.5913 13.1382C13.7069 14.2372 14.2648 15.6763 14.2648 17.4556ZM31 17.4556C31 19.1303 30.3359 20.5694 29.0077 21.773C27.7326 22.9243 26.1123 23.5 24.1465 23.5C21.862 23.5 20.0557 22.715 18.7275 21.1451C17.4524 19.5751 16.8149 17.7173 16.8149 15.5717C16.8149 10.7048 18.1431 7.04152 20.7995 4.58191C23.509 2.1223 26.5107 0.761661 29.8046 0.5V5.83788C28.2108 5.99488 26.6967 6.62287 25.2622 7.72184C23.8809 8.82082 23.1371 10.2076 23.0308 11.8822C23.5621 11.6206 24.1465 11.4898 24.7841 11.4898C26.7498 11.4898 28.2639 12.0392 29.3265 13.1382C30.4422 14.2372 31 15.6763 31 17.4556Z"
+                fill="black"></path>
+            </svg>
+          </div>
+          <p
+            class="mt-2 text-[28px] leading-[30px] font-ClashDisplay font-medium"
+          >
+            The final product exceeded my expectations.
+            <br /><br />
+            Impressed with the results!
+          </p>
+          <img class="h-10 w-min mt-10" src="Avatar.png" alt="avatar" />
+        </div>
+      </div>
+    </section>
+  </main>
 </Layout>
+
+<style>
+  #noise:before {
+    transform: translate3d(var(--tw-translate-x), var(--tw-translate-y), 0)
+      rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y))
+      scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+    opacity: 0.2;
+    content: "";
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 600'%3E%3Cfilter id='a'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23a)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 182px;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+</style>
