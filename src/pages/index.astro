@@ -2,6 +2,7 @@
 import "@/styles/main.css";
 import Layout from "../layouts/Layout.astro";
 import Card from "@/components/Card.astro";
+import WhyCard from "@/components/WhyCard.astro";
 ---
 
 <Layout title="Welcome to Astro.">
@@ -36,8 +37,8 @@ import Card from "@/components/Card.astro";
       >Book a call</button
     >
   </header>
-  <main class="mt-28 w-11/12 mx-auto">
-    <section class="text-center flex flex-col items-center">
+  <main class="mt-28">
+    <section class="w-11/12 mx-auto text-center flex flex-col items-center">
       <h1
         class="font-medium text-[120px] leading-[100px] font-ClashDisplay text-balance"
       >
@@ -59,7 +60,7 @@ import Card from "@/components/Card.astro";
         </div>
       </button>
     </section>
-    <section class="my-[100px]">
+    <section class="w-11/12 mx-auto my-[100px]">
       <div class="grid grid-cols-3 grid-rows-2 gap-6">
         <div
           class="row-span-2 overflow-hidden bg-brandWhite text-brandBlack rounded-3xl h-[23.5rem] p-5 flex justify-between flex-col"
@@ -119,6 +120,39 @@ import Card from "@/components/Card.astro";
           <img class="h-10 w-min mt-10" src="Avatar.png" alt="avatar" />
         </div>
       </div>
+    </section>
+
+    <section class="bg-black text-white flex p-20 justify-between w-full">
+      <h1 class="text-5xl font-ClashDisplay max-w-96 leading-9">
+        Why our clients choose us as partners
+      </h1>
+
+      <ul class="flex flex-wrap gap-5 w-fit justify-end">
+        <WhyCard
+          img="/why/1.svg"
+          alt="Strategy"
+          title="Expertise and Specialization"
+          description="Access to a team with expertise in various marketing disciplines, ensuring your campaigns are well-rounded and effective."
+        />
+        <WhyCard
+          img="/why/2.svg"
+          alt="Strategy"
+          title="Fresh Perspectives"
+          description="We bring an outsider's perspective to your brand. This fresh perspective can help you stay ahead of competitors and adapt to changing market trends."
+        />
+        <WhyCard
+          img="/why/3.svg"
+          alt="Strategy"
+          title="Scalability and Flexibility"
+          description="Whether you're a small startup or a large corporation, we can help you scale your services to meet your needs."
+        />
+        <WhyCard
+          img="/why/4.svg"
+          alt="Strategy"
+          title="Resource Optimization"
+          description="Instead of hiring and training an in-house team, you can tap into the agency's existing infrastructure, saving both time and money."
+        />
+      </ul>
     </section>
   </main>
 </Layout>

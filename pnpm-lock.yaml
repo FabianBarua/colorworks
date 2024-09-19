@@ -17,9 +17,6 @@ importers:
       astro:
         specifier: ^4.13.4
         version: 4.13.4(typescript@5.5.4)
-      matter-js:
-        specifier: ^0.20.0
-        version: 0.20.0
       tailwindcss:
         specifier: ^3.4.10
         version: 3.4.10
@@ -1236,9 +1233,6 @@ packages:
 
   markdown-table@3.0.3:
     resolution: {integrity: sha512-Z1NL3Tb1M9wH4XESsCDEksWoKTdlUafKc4pt0GRwjUyXaCFZ+dc3g2erqB6zm3szA2IUSi7VnPI+o/9jnxh9hw==}
-
-  matter-js@0.20.0:
-    resolution: {integrity: sha512-iC9fYR7zVT3HppNnsFsp9XOoQdQN2tUyfaKg4CHLH8bN+j6GT4Gw7IH2rP0tflAebrHFw730RR3DkVSZRX8hwA==}
 
   mdast-util-definitions@6.0.0:
     resolution: {integrity: sha512-scTllyX6pnYNZH/AIp/0ePz6s4cZtARxImwoPJ7kS42n+MnVsI4XbnG6d4ibehRIldYMWM2LD7ImQblVhUejVQ==}
@@ -3317,8 +3311,6 @@ snapshots:
       '@jridgewell/sourcemap-codec': 1.5.0
 
   markdown-table@3.0.3: {}
-
-  matter-js@0.20.0: {}
 
   mdast-util-definitions@6.0.0:
     dependencies:
